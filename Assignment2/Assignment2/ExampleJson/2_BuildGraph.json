@@ -1,0 +1,44 @@
+[
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "monthNo": 7,
+    "monthName": "July",
+    "ticketCount": 8511
+  },
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "monthNo": 8,
+    "monthName": "August",
+    "ticketCount": 7207
+  },
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "monthNo": 9,
+    "monthName": "September",
+    "ticketCount": 6656
+  },
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "monthNo": 10,
+    "monthName": "October",
+    "ticketCount": 8022
+  },
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "monthNo": 11,
+    "monthName": "November",
+    "ticketCount": 7428
+  },
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "monthNo": 12,
+    "monthName": "December",
+    "ticketCount": 8304
+  }
+]

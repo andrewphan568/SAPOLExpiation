@@ -1,0 +1,134 @@
+[
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "year": 2016,
+    "ticketCount": 46128
+  },
+  {
+    "category": 2,
+    "expiationCategory": "10-19km/h",
+    "year": 2016,
+    "ticketCount": 64996
+  },
+  {
+    "category": 3,
+    "expiationCategory": "20-29km/h",
+    "year": 2016,
+    "ticketCount": 5987
+  },
+  {
+    "category": 4,
+    "expiationCategory": "30-44km/h",
+    "year": 2016,
+    "ticketCount": 1640
+  },
+  {
+    "category": 5,
+    "expiationCategory": "45km/h or more",
+    "year": 2016,
+    "ticketCount": 446
+  },
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "year": 2017,
+    "ticketCount": 81033
+  },
+  {
+    "category": 2,
+    "expiationCategory": "10-19km/h",
+    "year": 2017,
+    "ticketCount": 120326
+  },
+  {
+    "category": 3,
+    "expiationCategory": "20-29km/h",
+    "year": 2017,
+    "ticketCount": 11260
+  },
+  {
+    "category": 4,
+    "expiationCategory": "30-44km/h",
+    "year": 2017,
+    "ticketCount": 2859
+  },
+  {
+    "category": 5,
+    "expiationCategory": "45km/h or more",
+    "year": 2017,
+    "ticketCount": 613
+  },
+  {
+    "category": 0,
+    "expiationCategory": "10km/h limit",
+    "year": 2018,
+    "ticketCount": 910
+  },
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "year": 2018,
+    "ticketCount": 85092
+  },
+  {
+    "category": 2,
+    "expiationCategory": "10-19km/h",
+    "year": 2018,
+    "ticketCount": 123155
+  },
+  {
+    "category": 3,
+    "expiationCategory": "20-29km/h",
+    "year": 2018,
+    "ticketCount": 11887
+  },
+  {
+    "category": 4,
+    "expiationCategory": "30-44km/h",
+    "year": 2018,
+    "ticketCount": 3015
+  },
+  {
+    "category": 5,
+    "expiationCategory": "45km/h or more",
+    "year": 2018,
+    "ticketCount": 756
+  },
+  {
+    "category": 0,
+    "expiationCategory": "10km/h limit",
+    "year": 2019,
+    "ticketCount": 369
+  },
+  {
+    "category": 1,
+    "expiationCategory": "1-9km/h",
+    "year": 2019,
+    "ticketCount": 19460
+  },
+  {
+    "category": 2,
+    "expiationCategory": "10-19km/h",
+    "year": 2019,
+    "ticketCount": 28433
+  },
+  {
+    "category": 3,
+    "expiationCategory": "20-29km/h",
+    "year": 2019,
+    "ticketCount": 2583
+  },
+  {
+    "category": 4,
+    "expiationCategory": "30-44km/h",
+    "year": 2019,
+    "ticketCount": 793
+  },
+  {
+    "category": 5,
+    "expiationCategory": "45km/h or more",
+    "year": 2019,
+    "ticketCount": 133
+  }
+]

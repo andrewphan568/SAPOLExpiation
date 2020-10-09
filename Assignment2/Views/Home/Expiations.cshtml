@@ -1,0 +1,444 @@
+﻿
+@section styles {
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/angular-route.js"></script>
+    <script src="/Scripts/angular-ui/ui-bootstrap.js"></script>
+    <script src="/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="/Scripts/d3/d3.js"></script>
+    <link href="/StyleSheet.css" rel="stylesheet" />
+
+
+}
+<div class="jumbotron">
+    <h2 class="text-center">SAPOL Expiation Data</h2>
+</div>
+<div class="row">
+    <div class="col-4" id="table">
+        <!-- Do NOT Edit this HTML -->
+    </div>
+    <div class="col-8">
+        <div class="row">
+            <div class="col-12" id="graph">
+                <p class="text-center">Select an expiation description to continue...</p>
+                <!-- Do NOT Edit this HTML -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="/Scripts/d3/d3.js"></script>
+    <script>
+
+        // global variable to store value for expiationCategory and year
+        var exCategory = '';
+        var mName = '';
+
+        //image variable for error funtion
+        var imgError = $('<img>')
+            .attr('src', '/Pictures/error-picture.jpg')
+            .attr('width', '400p')
+            .attr('hight', '200px')
+            .css('margin-left', '50px');
+
+        // 1. generate the table
+        var $requestTable = $.ajax({
+            url: '/api/ExpiationsWebAPI',
+            datatype: 'json',
+            method: 'get',
+            timeout: 5000
+        })
+
+        $requestTable.done(function (data) {
+            var oldYear = 0;      // store the year to make sure each year will show only 1 time
+            var titleF = 0;      // store number of title frame has been appended
+
+            $('<table>')
+                .addClass('table table-striped table-hover table-sm')
+                .appendTo('#table');
+
+            $('<thead>')
+                .appendTo('#table table');
+
+            $('<tr>')
+                .appendTo('#table table thead');
+
+            $('<th>')
+                .text('Speeding Category')
+                .appendTo('#table table thead tr');
+
+            $('<th>')
+                .text('Tickets Issued')
+                .appendTo('#table table thead tr');
+
+            $('<tbody>')
+                .appendTo('#table table');
+
+            $.each(data, function (index, value) {
+                // show each year only 1 time
+                if (oldYear != value.year) {
+                    var year = $('<tr>')
+                        .appendTo('#table table tbody');
+
+                    $('<td>')
+                        .attr('colspan', '2')
+                        .addClass('colspan-style')
+                        .text(value.year)
+                        .appendTo(year);
+                    oldYear = value.year;
+                }
+
+                var row = $('<tr>')
+                    .addClass('data')
+                    .attr('title', 'View Expiation for ' + value.expiationCategory + ' or more in ' + value.year)
+                    .on('click', function () {
+                        $('tr').removeClass("data-active"); // remove the style of previous selected row
+                        $(this).addClass("data-active"); // highlight the current selected row
+                        exCategory = value.expiationCategory; // update exCategory variable
+
+                        //show title of graph
+                        $('p.text-center').remove(); // remove the default text
+                        $('.graph-title').remove(); // remove the previous title text
+
+                        if (titleF == 0) { // make sure only create title Frame one time
+                            $('<div>')
+                                .addClass('titleF')
+                                .appendTo('#graph');
+                            titleF = 1;
+                        }
+
+                        $('<h4>')
+                            .addClass('graph-title')
+                            .text('Speeding by ' + value.expiationCategory + ' in ' + value.year)
+                            .appendTo('.titleF');
+
+                        createGraph(value.category, value.year); //call function to show graph
+                    })
+                    .appendTo('#table table tbody ');
+
+                $('<td>')
+                    .text('Speeding by ' + value.expiationCategory)
+                    .appendTo(row);
+
+                $('<td>')
+                    .text(value.ticketCount)
+                    .appendTo(row);
+
+            });
+        })
+
+        $requestTable.fail(function (data) {
+            $('#graph p').remove(); //remove <p> in graph
+
+            $('<div>')
+                .appendTo('#table');
+
+            imgError.appendTo('#table div');
+
+            $('<p>')
+                .addClass("error-text")
+                .text('Failed to load Expiation Data')
+                .appendTo('#table div');
+        })
+
+
+        // 2. generate the graph
+        var createSVGF = 0;     // store number of SVG frame has been appended
+        function createGraph(category, year) {
+
+            var $requestGraph = $.ajax({
+                url: '/api/ExpiationsWebAPI?category=' + category + '&year=' + year,
+                dataType: 'json',
+                method: 'GET',
+                timeout: 5000
+            })
+
+            $requestGraph.done(function (data) {
+
+                $('svg').remove(); //remove the previous graph
+                $('.tableDetails').remove();//remove the previous table details
+
+                //create the div for svg frame 1 time
+                if (createSVGF == 0) {
+                    $('<div>')
+                        .addClass('svgFrame')
+                        .appendTo('#graph');
+                    createSVGF = 1;
+                }
+
+                var svg = d3.select('.svgFrame')
+                    .append('svg')
+                    .attr('width', '100%')
+                    .attr('height', '600')
+                    .style('border', '1px solid #000');
+
+                // determine the size of the SVG element
+                var w = svg.node().getBoundingClientRect().width;
+                var h = svg.node().getBoundingClientRect().height;
+
+                // create Chart Margins
+                var chartMargin = new Object();
+                chartMargin.left = 110;
+                chartMargin.right = 25;
+                chartMargin.top = 50;
+                chartMargin.bottom = 100;
+
+                // reduce the available SVG width
+                w = w - chartMargin.left - chartMargin.right;
+
+                // get the max ticketCount
+                var maxTicketCount = d3.max(data, function (d) { return d.ticketCount; });
+
+                // set bar dimensions
+                var barHeightMargin = 10;
+                var barHeightWidth = (h - chartMargin.top - chartMargin.bottom) / data.length;
+
+                // Create a xScale
+                var xScale = d3.scaleLinear()
+                    .domain([0, maxTicketCount])
+                    .range([0, w]);
+
+                // Create an yScale
+                var yScale = d3.scaleBand()
+                    .domain(data.map(function (d) { return d.monthName; })) // get monthName
+                    .range([0, h - chartMargin.top - chartMargin.bottom])
+                    .paddingInner(0.15); // margin between bars
+
+                var chartGroup = svg.append('g')
+                    .classed('chartGroup', true)
+                    .attr('transform', 'translate(' + chartMargin.left + ',' + chartMargin.top + ')');
+
+                // Select all bar groups
+                var barGroups = chartGroup
+                    .selectAll('g')
+                    .data(data);
+
+                //  add new bar groups
+                var newBarGroups = barGroups.enter()
+                    .append('g')
+                    .attr('transform', function (d, i) {
+                        return 'translate(' + 0 + ','
+                            + (i * barHeightWidth) + ')';
+                    });
+
+                // create the xaxis and add them to the page
+                var xAxis = d3.axisBottom(xScale); // declare the axis generator
+                chartGroup.append('g')
+                    .attr('transform', 'translate(0,' + (h - chartMargin.top - chartMargin.bottom) + ')')
+                    .classed('axis x', true)
+                    .call(xAxis)
+                    .selectAll('text')
+                    .style("font-size", "2em"); // set font size
+
+                // text label for the x axis
+                chartGroup.append("text")
+                    .attr("transform", 'translate(' + w / 2 + ',' + (h - chartMargin.bottom) + ')')
+                    .attr("dy", "1em")
+                    .style("text-anchor", "end")
+                    .style("font-size", "1.5em")
+                    .text("Ticket Count");
+
+                // create the y-axis of the graph
+                var yAxis = d3.axisLeft(yScale); // declare the axis generator
+                chartGroup.append('g')
+                    .classed('axis y', true)
+                    .call(yAxis)
+                    .selectAll('text')
+                    .style("text-anchor", "end") // pull labels to end
+                    .style("font-size", "2em"); // set font size
+
+                // text label for the y axis
+                chartGroup.append("text")
+                    .attr('transform', function (d, i) {
+                        return 'translate(' + 0 + ','
+                            + (i * barHeightWidth) + ')';
+                    })
+
+                    .style("text-anchor", "middle")
+                    .text("Month")
+                    .attr("dy", "-0.5em")
+                    .attr("dx", "-1.5em")
+                    .style("font-size", "1.5em");
+
+                newBarGroups
+                    .append('rect')
+                    .attr("class", "bar")
+                    .attr('x', 0)
+                    .attr('y', 0)
+                    .attr('width', 0)
+                    .attr('height', barHeightWidth - barHeightMargin)
+                    .style("fill", function (d, index) {
+                        return "hsl(325, 100%, " + (d.ticketCount / maxTicketCount * 80) + "%)"
+                    })
+                    // add animation
+                    .transition()
+                    .duration(1500)
+                    .delay(function (d, i) { return (i * 100) })
+                    .attr('width', function (d, i) {
+                        return xScale(d.ticketCount);
+                    });
+
+                var barValueMargin = 10
+                // add bar value
+                newBarGroups
+                    .append('text')
+                    .attr("class", "barValue")
+                    .attr("text-anchor", "end")
+                    .attr('y', function () { return (yScale.bandwidth() + barHeightMargin) / 2; })
+                    .attr('x', function (d, i) {
+                        return xScale(d.ticketCount) - barValueMargin;
+                    })
+                    .attr('fill', 'white')
+                    .text(function (d, i) { return d.ticketCount; })
+                    .style('font-size', '1.1em')
+
+                // add tool-tip
+                var tooltip = d3.select('.svgFrame')
+                    .append("div")
+                    .attr("class", "toolt")
+                    .style("display", "none")
+
+                d3.selectAll('rect')
+                    .on("mouseover", function () { return tooltip.style("display", "inline"); })
+                    .on("mousemove", function (d) {
+                        
+                        return tooltip
+                            .style("left", (d3.event.pageX - 500) + "px")
+                            .style("top", (d3.event.pageY - 120) + "px")
+                            
+                            .html(d.ticketCount + " tickets were issued in " + d.monthName + " of " + year + "<br>" + "click for offence breakdown");
+                    })
+                    .on("mouseout", function () { return tooltip.style("display", "none"); });
+
+                // show table when clicking on bar
+                d3.selectAll('rect').on('click', function (d, i) {
+                    showTableDetails(category, year, d.monthNo)
+                    mName = d.monthName;
+                })
+            })           
+            
+            $requestGraph.fail(function (data) {
+                $('#graph p').remove(); //remove <p> in graph
+                $('.graph-title').remove(); //remove graph title
+                $('.graph-error').remove(); //remove any graph error before
+
+                $('<div>')
+                    .addClass('graph-error')
+                    .appendTo('#graph');
+
+
+                imgError.appendTo('.graph-error');
+
+                $('<p>')
+                    .addClass("error-text")
+                    .text('Failed to load Graph')
+                    .appendTo('.graph-error');
+            })
+        }
+
+        // 3. generate the details table
+
+        function showTableDetails(category, year, monthNo) {
+            var $requestTableDetails = $.ajax({
+                url: '/api/ExpiationsWebAPI?category=' + category + '&year=' + year + '&monthNo=' + monthNo,
+                dataType: 'json',
+                method: 'GET',
+                timeout: 5000
+            })
+
+            $requestTableDetails.done(function (data) {
+                $('.tableDetails').remove();//remove the previous table details
+
+                $('<div>')
+                    .addClass('tableDetails')
+                    .appendTo('#graph');
+
+                $('<h4>')
+                    .addClass('table-details-title')
+                    .text('Speeding by ' + exCategory + ' in ' + mName + ' ' + year)
+                    .appendTo('.tableDetails');
+
+                $('<table>')
+                    .addClass('table table-striped table-hover table-sm')
+                    .appendTo('.tableDetails');
+
+                $('<thead>')
+                    .appendTo('.tableDetails table');
+
+                $('<tr>')
+                    .appendTo('.tableDetails table thead');
+
+                $('<th>')
+                    .text('Expiation Code')
+                    .appendTo('.tableDetails table thead tr');
+
+                $('<th>')
+                    .text('Expiation Description')
+                    .appendTo('.tableDetails table thead tr');
+
+                $('<th>')
+                    .text('Avg. Speed(km/h)')
+                    .appendTo('.tableDetails table thead tr');
+
+                $('<th>')
+                    .text('Avg. Fine($)')
+                    .appendTo('.tableDetails table thead tr');
+
+                $('<th>')
+                    .text('Tickets Issued')
+                    .appendTo('.tableDetails table thead tr');
+
+                $('<tbody>')
+                    .appendTo('.tableDetails table');
+
+                $.each(data, function (index, value) {
+
+                    var rowDetails = $('<tr>')
+                        .appendTo('.tableDetails table tbody');
+
+                    $('<td>')
+                        .text(value.expiationOffenceCode)
+                        .appendTo(rowDetails);
+
+                    $('<td>')
+                        .text(value.expiationOffenceLongDescription)
+                        .appendTo(rowDetails);
+
+                    $('<td>')
+                        .text(value.avgSpeed.toFixed(2))
+                        .addClass('right-align')
+                        .appendTo(rowDetails);
+
+                    $('<td>')
+                        .text(value.avgFine.toFixed(2))
+                        .addClass('right-align')
+                        .appendTo(rowDetails);
+
+                    $('<td>')
+                        .text(value.ticketCount)
+                        .addClass('right-align')
+                        .appendTo(rowDetails);
+                });
+            })
+
+            $requestTableDetails.fail(function (data) {
+                $('.table-details-title').remove(); //remove graph title
+                $('.table-details-error').remove(); //remove any graph error before
+
+                $('<div>')
+                    .addClass('table-details-error')
+                    .appendTo('#graph');
+
+
+                imgError.appendTo('.table-details-error')
+
+                $('<p>')
+                    .addClass("error-text")
+                    .text('Failed to load Table Details')
+                    .appendTo('.table-details-error');
+            })
+        }
+
+    </script>
+}

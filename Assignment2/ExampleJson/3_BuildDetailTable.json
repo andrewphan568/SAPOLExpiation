@@ -1,0 +1,128 @@
+[
+  {
+    "expiationOffenceCode": "A001",
+    "expiationOffenceLongDescription": "Exceed Signed Speed by 1-9km/h",
+    "ticketCount": 1030,
+    "avgFine": 53.976699029126216,
+    "avgSpeed": 91.628155339805829
+  },
+  {
+    "expiationOffenceCode": "A015",
+    "expiationOffenceLongDescription": "Vehicle > 12 tonne exceed 100km/h by 1-9km/h",
+    "ticketCount": 1,
+    "avgFine": 0.0,
+    "avgSpeed": 0.0
+  },
+  {
+    "expiationOffenceCode": "A022",
+    "expiationOffenceLongDescription": "Exceed speed in area by 1-9km/h",
+    "ticketCount": 7,
+    "avgFine": 0.0,
+    "avgSpeed": 50.714285714285715
+  },
+  {
+    "expiationOffenceCode": "A029",
+    "expiationOffenceLongDescription": "Exceed school zone speed by 1-9km/h",
+    "ticketCount": 7,
+    "avgFine": 0.0,
+    "avgSpeed": 32.714285714285715
+  },
+  {
+    "expiationOffenceCode": "A050",
+    "expiationOffenceLongDescription": "Exceed default speed o/s built up area by 1-9km/h",
+    "ticketCount": 6,
+    "avgFine": 0.0,
+    "avgSpeed": 108.33333333333333
+  },
+  {
+    "expiationOffenceCode": "A606",
+    "expiationOffenceLongDescription": "Exceed 25km/h in an emergency service speed zone by 1-9km/h",
+    "ticketCount": 5,
+    "avgFine": 0.0,
+    "avgSpeed": 22.0
+  },
+  {
+    "expiationOffenceCode": "A760",
+    "expiationOffenceLongDescription": "Exceed prescribed speed limit by 1-9km/h",
+    "ticketCount": 4,
+    "avgFine": 250.0,
+    "avgSpeed": 97.25
+  },
+  {
+    "expiationOffenceCode": "A764",
+    "expiationOffenceLongDescription": "Exceed 40km/h speed limit by 1-9km/h",
+    "ticketCount": 2,
+    "avgFine": 113.0,
+    "avgSpeed": 23.0
+  },
+  {
+    "expiationOffenceCode": "A770",
+    "expiationOffenceLongDescription": "Exceed default speed in built up area by 1-9km/h",
+    "ticketCount": 85,
+    "avgFine": 13.294117647058824,
+    "avgSpeed": 55.670588235294119
+  },
+  {
+    "expiationOffenceCode": "C801",
+    "expiationOffenceLongDescription": "Exceed Signed Speed by 1-9 km/h",
+    "ticketCount": 344,
+    "avgFine": 526.0,
+    "avgSpeed": 66.261627906976742
+  },
+  {
+    "expiationOffenceCode": "C822",
+    "expiationOffenceLongDescription": "Exceed Speed in an Area by 1-9 km/h",
+    "ticketCount": 12,
+    "avgFine": 526.0,
+    "avgSpeed": 48.416666666666664
+  },
+  {
+    "expiationOffenceCode": "C870",
+    "expiationOffenceLongDescription": "Exceed Default speed in Built up Area by 1-9 km/h",
+    "ticketCount": 69,
+    "avgFine": 526.0,
+    "avgSpeed": 58.507246376811594
+  },
+  {
+    "expiationOffenceCode": "I001",
+    "expiationOffenceLongDescription": "Exceed Signed Speed by 1-9 km/h",
+    "ticketCount": 3921,
+    "avgFine": 226.11527671512368,
+    "avgSpeed": 65.086967610303489
+  },
+  {
+    "expiationOffenceCode": "I022",
+    "expiationOffenceLongDescription": "Exceed Speed in an Area by 1-9 km/h",
+    "ticketCount": 108,
+    "avgFine": 226.0,
+    "avgSpeed": 48.462962962962962
+  },
+  {
+    "expiationOffenceCode": "I770",
+    "expiationOffenceLongDescription": "Exceed Default speed in Built up Area by 1-9 km/h",
+    "ticketCount": 1143,
+    "avgFine": 226.19772528433947,
+    "avgSpeed": 58.423447069116364
+  },
+  {
+    "expiationOffenceCode": "N001",
+    "expiationOffenceLongDescription": "Exceed Signed Speed by 1-9 km/h",
+    "ticketCount": 1341,
+    "avgFine": 226.0,
+    "avgSpeed": 65.090231170768078
+  },
+  {
+    "expiationOffenceCode": "N022",
+    "expiationOffenceLongDescription": "Exceed Speed in an Area by 1-9 km/h",
+    "ticketCount": 47,
+    "avgFine": 226.0,
+    "avgSpeed": 48.4468085106383
+  },
+  {
+    "expiationOffenceCode": "N770",
+    "expiationOffenceLongDescription": "Exceed Default speed in Built up Area by 1-9 km/h",
+    "ticketCount": 379,
+    "avgFine": 226.0,
+    "avgSpeed": 58.467018469656992
+  }
+]

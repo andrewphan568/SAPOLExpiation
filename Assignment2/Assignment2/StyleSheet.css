@@ -1,0 +1,43 @@
+﻿.error-text {
+    font-size: 2em;
+    color: red;
+    margin-left: 50px;
+}
+
+.colspan-style {
+    background-color: lightblue;
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+tr.data :hover {
+    background-color: yellow !important;
+}
+
+.data-active {
+    background-color: yellow !important;
+}
+
+.right-align {
+    text-align: right;
+}
+
+.bar:hover {
+    fill: orange !important;
+}
+
+
+.toolt {
+    position: absolute;
+    text-align: left;
+    padding: 10px 10px;
+    font: 13px sans-serif;
+    background: black;
+    color: white;
+    border: 1px solid white;
+}
